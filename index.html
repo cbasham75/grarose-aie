@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grarose AIE — Coming Soon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --green: #22C55E;
+  --stone: #A8A29E;
+  --dark: #0d1117;
+  --mid: #161d2b;
+  --border: rgba(255,255,255,0.07);
+  --muted: #6b7280;
+  --text: #d1d8e0;
+}
+html, body { height: 100%; }
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--dark);
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* NAV */
+nav {
+  padding: 24px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.logo { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 900; letter-spacing: 3px; text-decoration: none; }
+.logo .gra { color: var(--green); }
+.logo .rose { color: var(--stone); }
+.back-link { font-size: 13px; color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+.back-link:hover { color: #fff; }
+
+/* HERO */
+.hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Construction scene SVG illustration */
+.construction-scene {
+  width: 100%;
+  max-width: 700px;
+  margin-bottom: 48px;
+  position: relative;
+}
+
+/* Badge */
+.cs-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--green);
+  padding: 6px 18px;
+  border: 1px solid rgba(34,197,94,0.3);
+  border-radius: 100px;
+  background: rgba(34,197,94,0.07);
+  margin-bottom: 24px;
+  animation: fadeUp 0.5s ease both;
+}
+
+.main-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(52px, 10vw, 100px);
+  font-weight: 900;
+  letter-spacing: 4px;
+  line-height: 0.9;
+  margin-bottom: 20px;
+  animation: fadeUp 0.5s 0.1s ease both;
+}
+.main-title .gra { color: var(--green); }
+.main-title .rose { color: #fff; }
+.main-title .aie { color: var(--green); font-size: 0.65em; vertical-align: middle; }
+
+.subtitle {
+  font-size: clamp(16px, 2.5vw, 22px);
+  font-weight: 300;
+  color: var(--text);
+  margin-bottom: 16px;
+  animation: fadeUp 0.5s 0.15s ease both;
+}
+
+.desc {
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 480px;
+  margin: 0 auto 48px;
+  line-height: 1.8;
+  animation: fadeUp 0.5s 0.2s ease both;
+}
+
+/* Notify form */
+.notify-form {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
+  animation: fadeUp 0.5s 0.25s ease both;
+}
+.notify-input {
+  padding: 13px 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+  font-size: 14px;
+  font-family: 'Outfit', sans-serif;
+  width: 280px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.notify-input::placeholder { color: var(--muted); }
+.notify-input:focus { border-color: rgba(34,197,94,0.4); }
+.notify-btn {
+  padding: 13px 28px;
+  background: var(--green);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Outfit', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.notify-btn:hover { background: #16a34a; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(34,197,94,0.3); }
+.notify-success { display: none; color: var(--green); font-size: 14px; font-weight: 600; }
+
+/* Photo strip */
+.photo-strip {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  max-width: 900px;
+  margin: 0 auto;
+  animation: fadeUp 0.5s 0.3s ease both;
+}
+.photo-strip-cell {
+  border-radius: 12px;
+  overflow: hidden;
+  height: 160px;
+  position: relative;
+}
+.photo-strip-cell img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.7) saturate(0.8);
+  transition: filter 0.4s;
+}
+.photo-strip-cell:hover img { filter: brightness(0.9) saturate(1); }
+
+/* Features preview */
+.features-preview {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 60px;
+  animation: fadeUp 0.5s 0.28s ease both;
+}
+.feat-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+}
+.feat-pill span { color: var(--green); }
+
+/* Footer */
+footer {
+  padding: 24px 48px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+footer a { color: var(--muted); text-decoration: none; }
+footer a:hover { color: #fff; }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)} }
+
+/* Crane animation */
+@keyframes craneSwing { 0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)} }
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:0.3} }
+@keyframes rise { from{transform:translateY(8px);opacity:0}to{transform:translateY(0);opacity:1} }
+
+.scene-wrap {
+  animation: rise 0.8s 0.4s ease both;
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://grarose.com" class="logo"><span class="gra">GRA</span><span class="rose">ROSE</span></a>
+  <a href="https://grarose.com" class="back-link">← Back to Grarose</a>
+</nav>
+
+<div class="hero">
+
+  <!-- Construction scene SVG -->
+  <div class="construction-scene scene-wrap">
+    <svg viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+      <!-- Sky gradient -->
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#0a0f1e"/>
+          <stop offset="100%" stop-color="#111827"/>
+        </linearGradient>
+        <linearGradient id="glowG" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#22C55E" stop-opacity="0"/>
+          <stop offset="50%" stop-color="#22C55E" stop-opacity="0.15"/>
+          <stop offset="100%" stop-color="#22C55E" stop-opacity="0"/>
+        </linearGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+          <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="softglow">
+          <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+          <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- Background -->
+      <rect width="700" height="320" fill="url(#sky)" rx="16"/>
+
+      <!-- Stars -->
+      <circle cx="60" cy="30" r="1" fill="white" opacity="0.4"/>
+      <circle cx="120" cy="18" r="1.2" fill="white" opacity="0.3"/>
+      <circle cx="200" cy="40" r="0.8" fill="white" opacity="0.5"/>
+      <circle cx="320" cy="22" r="1" fill="white" opacity="0.3"/>
+      <circle cx="450" cy="15" r="1.2" fill="white" opacity="0.4"/>
+      <circle cx="560" cy="35" r="0.8" fill="white" opacity="0.5"/>
+      <circle cx="640" cy="20" r="1" fill="white" opacity="0.3"/>
+      <circle cx="680" cy="50" r="0.8" fill="white" opacity="0.4"/>
+
+      <!-- Moon glow -->
+      <circle cx="620" cy="45" r="22" fill="#1e2d4a" opacity="0.6"/>
+      <circle cx="620" cy="45" r="16" fill="#253558" opacity="0.8"/>
+
+      <!-- Ground -->
+      <rect x="0" y="270" width="700" height="50" fill="#0f1624" rx="0"/>
+      <rect x="0" y="268" width="700" height="4" fill="#1a2540"/>
+
+      <!-- Building 1 (left, background) -->
+      <rect x="40" y="120" width="80" height="150" fill="#0f1929" rx="3"/>
+      <rect x="40" y="115" width="80" height="8" fill="#142135" rx="2"/>
+      <!-- windows -->
+      <rect x="52" y="132" width="12" height="10" fill="#1e3a5f" opacity="0.7" rx="1"/>
+      <rect x="72" y="132" width="12" height="10" fill="#22C55E" opacity="0.2" rx="1"/>
+      <rect x="92" y="132" width="12" height="10" fill="#1e3a5f" opacity="0.7" rx="1"/>
+      <rect x="52" y="152" width="12" height="10" fill="#22C55E" opacity="0.15" rx="1"/>
+      <rect x="72" y="152" width="12" height="10" fill="#1e3a5f" opacity="0.7" rx="1"/>
+      <rect x="92" y="152" width="12" height="10" fill="#1e3a5f" opacity="0.5" rx="1"/>
+      <rect x="52" y="172" width="12" height="10" fill="#1e3a5f" opacity="0.7" rx="1"/>
+      <rect x="72" y="172" width="12" height="10" fill="#22C55E" opacity="0.2" rx="1"/>
+      <rect x="92" y="172" width="12" height="10" fill="#1e3a5f" opacity="0.4" rx="1"/>
+      <rect x="52" y="192" width="12" height="10" fill="#22C55E" opacity="0.1" rx="1"/>
+      <rect x="72" y="192" width="12" height="10" fill="#1e3a5f" opacity="0.6" rx="1"/>
+      <rect x="92" y="192" width="12" height="10" fill="#1e3a5f" opacity="0.7" rx="1"/>
+      <rect x="52" y="212" width="12" height="10" fill="#1e3a5f" opacity="0.5" rx="1"/>
+      <rect x="72" y="212" width="12" height="10" fill="#22C55E" opacity="0.15" rx="1"/>
+      <rect x="92" y="212" width="12" height="10" fill="#1e3a5f" opacity="0.7" rx="1"/>
+      <rect x="52" y="232" width="12" height="10" fill="#1e3a5f" opacity="0.7" rx="1"/>
+      <rect x="72" y="232" width="12" height="10" fill="#1e3a5f" opacity="0.4" rx="1"/>
+      <rect x="92" y="232" width="12" height="10" fill="#22C55E" opacity="0.1" rx="1"/>
+
+      <!-- Building 2 (right background) -->
+      <rect x="570" y="100" width="90" height="170" fill="#0e1826" rx="3"/>
+      <rect x="570" y="95" width="90" height="8" fill="#132032" rx="2"/>
+      <rect x="582" y="112" width="14" height="10" fill="#1e3a5f" opacity="0.7" rx="1"/>
+      <rect x="604" y="112" width="14" height="10" fill="#22C55E" opacity="0.2" rx="1"/>
+      <rect x="626" y="112" width="14" height="10" fill="#1e3a5f" opacity="0.6" rx="1"/>
+      <rect x="582" y="132" width="14" height="10" fill="#22C55E" opacity="0.15" rx="1"/>
+      <rect x="604" y="132" width="14" height="10" fill="#1e3a5f" opacity="0.7" rx="1"/>
+      <rect x="626" y="132" width="14" height="10" fill="#1e3a5f" opacity="0.5" rx="1"/>
+      <rect x="582" y="152" width="14" height="10" fill="#1e3a5f" opacity="0.7" rx="1"/>
+      <rect x="604" y="152" width="14" height="10" fill="#22C55E" opacity="0.2" rx="1"/>
+      <rect x="626" y="152" width="14" height="10" fill="#1e3a5f" opacity="0.4" rx="1"/>
+      <rect x="582" y="172" width="14" height="10" fill="#1e3a5f" opacity="0.5" rx="1"/>
+      <rect x="604" y="172" width="14" height="10" fill="#1e3a5f" opacity="0.7" rx="1"/>
+      <rect x="626" y="172" width="14" height="10" fill="#22C55E" opacity="0.1" rx="1"/>
+      <rect x="582" y="192" width="14" height="10" fill="#22C55E" opacity="0.15" rx="1"/>
+      <rect x="604" y="192" width="14" height="10" fill="#1e3a5f" opacity="0.6" rx="1"/>
+      <rect x="626" y="192" width="14" height="10" fill="#1e3a5f" opacity="0.7" rx="1"/>
+      <rect x="582" y="212" width="14" height="10" fill="#1e3a5f" opacity="0.7" rx="1"/>
+      <rect x="604" y="212" width="14" height="10" fill="#22C55E" opacity="0.1" rx="1"/>
+      <rect x="626" y="212" width="14" height="10" fill="#1e3a5f" opacity="0.5" rx="1"/>
+      <rect x="582" y="232" width="14" height="10" fill="#1e3a5f" opacity="0.6" rx="1"/>
+      <rect x="604" y="232" width="14" height="10" fill="#1e3a5f" opacity="0.7" rx="1"/>
+      <rect x="626" y="232" width="14" height="10" fill="#22C55E" opacity="0.15" rx="1"/>
+
+      <!-- Construction building (under construction, center) -->
+      <!-- Scaffolding left -->
+      <rect x="170" y="80" width="3" height="190" fill="#1e2d44"/>
+      <rect x="220" y="80" width="3" height="190" fill="#1e2d44"/>
+      <rect x="170" y="100" width="53" height="2" fill="#1e2d44"/>
+      <rect x="170" y="130" width="53" height="2" fill="#1e2d44"/>
+      <rect x="170" y="160" width="53" height="2" fill="#1e2d44"/>
+      <rect x="170" y="190" width="53" height="2" fill="#1e2d44"/>
+      <rect x="170" y="220" width="53" height="2" fill="#1e2d44"/>
+      <rect x="170" y="250" width="53" height="2" fill="#1e2d44"/>
+
+      <!-- Building under construction -->
+      <rect x="223" y="130" width="120" height="140" fill="#111e32" rx="2"/>
+      <rect x="223" y="100" width="120" height="32" fill="#0f1a2c" rx="2" opacity="0.7"/>
+      <rect x="223" y="80" width="120" height="22" fill="#0d1726" opacity="0.5"/>
+
+      <!-- Building windows -->
+      <rect x="234" y="140" width="18" height="14" fill="#22C55E" opacity="0.25" rx="1"/>
+      <rect x="260" y="140" width="18" height="14" fill="#1e3a5f" opacity="0.6" rx="1"/>
+      <rect x="286" y="140" width="18" height="14" fill="#22C55E" opacity="0.15" rx="1"/>
+      <rect x="312" y="140" width="18" height="14" fill="#1e3a5f" opacity="0.7" rx="1"/>
+      <rect x="234" y="165" width="18" height="14" fill="#1e3a5f" opacity="0.5" rx="1"/>
+      <rect x="260" y="165" width="18" height="14" fill="#22C55E" opacity="0.2" rx="1"/>
+      <rect x="286" y="165" width="18" height="14" fill="#1e3a5f" opacity="0.7" rx="1"/>
+      <rect x="312" y="165" width="18" height="14" fill="#22C55E" opacity="0.1" rx="1"/>
+      <rect x="234" y="190" width="18" height="14" fill="#22C55E" opacity="0.3" rx="1"/>
+      <rect x="260" y="190" width="18" height="14" fill="#1e3a5f" opacity="0.6" rx="1"/>
+      <rect x="286" y="190" width="18" height="14" fill="#1e3a5f" opacity="0.7" rx="1"/>
+      <rect x="312" y="190" width="18" height="14" fill="#22C55E" opacity="0.2" rx="1"/>
+      <rect x="234" y="215" width="18" height="14" fill="#1e3a5f" opacity="0.7" rx="1"/>
+      <rect x="260" y="215" width="18" height="14" fill="#22C55E" opacity="0.15" rx="1"/>
+      <rect x="286" y="215" width="18" height="14" fill="#1e3a5f" opacity="0.5" rx="1"/>
+      <rect x="312" y="215" width="18" height="14" fill="#1e3a5f" opacity="0.7" rx="1"/>
+      <rect x="234" y="240" width="18" height="14" fill="#22C55E" opacity="0.2" rx="1"/>
+      <rect x="260" y="240" width="18" height="14" fill="#1e3a5f" opacity="0.6" rx="1"/>
+      <rect x="286" y="240" width="18" height="14" fill="#22C55E" opacity="0.1" rx="1"/>
+      <rect x="312" y="240" width="18" height="14" fill="#1e3a5f" opacity="0.7" rx="1"/>
+
+      <!-- Scaffolding right side -->
+      <rect x="343" y="80" width="3" height="190" fill="#1e2d44"/>
+      <rect x="393" y="80" width="3" height="190" fill="#1e2d44"/>
+      <rect x="343" y="100" width="53" height="2" fill="#1e2d44"/>
+      <rect x="343" y="130" width="53" height="2" fill="#1e2d44"/>
+      <rect x="343" y="160" width="53" height="2" fill="#1e2d44"/>
+      <rect x="343" y="190" width="53" height="2" fill="#1e2d44"/>
+      <rect x="343" y="220" width="53" height="2" fill="#1e2d44"/>
+      <rect x="343" y="250" width="53" height="2" fill="#1e2d44"/>
+
+      <!-- LEFT CRANE -->
+      <g style="transform-origin:175px 270px">
+        <!-- Mast -->
+        <rect x="172" y="40" width="6" height="240" fill="#2a3f5f"/>
+        <!-- Jib (horizontal arm) -->
+        <rect x="60" y="40" width="190" height="5" fill="#2a3f5f"/>
+        <!-- Counter jib -->
+        <rect x="178" y="40" width="80" height="4" fill="#243755"/>
+        <!-- Cable from tip of jib -->
+        <line x1="62" y1="45" x2="175" y2="78" stroke="#1e2d44" stroke-width="1.5"/>
+        <line x1="250" y1="45" x2="175" y2="78" stroke="#1e2d44" stroke-width="1.5"/>
+        <!-- Hook cable -->
+        <line x1="130" y1="45" x2="130" y2="90" stroke="#22C55E" stroke-width="1.5" opacity="0.7" filter="url(#glow)"/>
+        <!-- Hook -->
+        <rect x="124" y="90" width="12" height="8" fill="#22C55E" opacity="0.8" rx="1" filter="url(#glow)"/>
+        <!-- Warning light -->
+        <circle cx="62" cy="40" r="3" fill="#22C55E" opacity="0.9" filter="url(#glow)" style="animation:blink 1.5s ease-in-out infinite"/>
+      </g>
+
+      <!-- RIGHT CRANE -->
+      <g style="transform-origin:500px 270px">
+        <!-- Mast -->
+        <rect x="497" y="30" width="6" height="240" fill="#2a3f5f"/>
+        <!-- Jib -->
+        <rect x="390" y="30" width="200" height="5" fill="#2a3f5f"/>
+        <!-- Counter jib -->
+        <rect x="503" y="30" width="70" height="4" fill="#243755"/>
+        <!-- Cables -->
+        <line x1="392" y1="35" x2="500" y2="68" stroke="#1e2d44" stroke-width="1.5"/>
+        <line x1="590" y1="35" x2="500" y2="68" stroke="#1e2d44" stroke-width="1.5"/>
+        <!-- Hook cable -->
+        <line x1="450" y1="35" x2="450" y2="100" stroke="#22C55E" stroke-width="1.5" opacity="0.6" filter="url(#glow)"/>
+        <!-- Hook/load box -->
+        <rect x="438" y="100" width="24" height="18" fill="#22C55E" opacity="0.6" rx="2" filter="url(#glow)"/>
+        <!-- Warning light -->
+        <circle cx="590" cy="30" r="3" fill="#22C55E" opacity="0.9" filter="url(#glow)" style="animation:blink 1.8s ease-in-out infinite"/>
+      </g>
+
+      <!-- Excavator (bottom left) -->
+      <g transform="translate(420, 225)">
+        <!-- Body -->
+        <rect x="0" y="20" width="70" height="35" fill="#1e3050" rx="4"/>
+        <!-- Cab -->
+        <rect x="35" y="5" width="35" height="20" fill="#162440" rx="3"/>
+        <rect x="38" y="8" width="14" height="10" fill="#1e3a5f" opacity="0.5" rx="1"/>
+        <!-- Arm base -->
+        <rect x="5" y="15" width="8" height="30" fill="#253a5e" rx="2" transform="rotate(-20, 9, 30)"/>
+        <!-- Arm -->
+        <rect x="-15" y="0" width="6" height="28" fill="#1e3050" rx="2" transform="rotate(30, -12, 14)"/>
+        <!-- Bucket -->
+        <path d="M -28 8 L -20 8 L -18 20 L -30 20 Z" fill="#22C55E" opacity="0.5"/>
+        <!-- Tracks -->
+        <rect x="-2" y="52" width="74" height="10" fill="#142030" rx="5"/>
+        <circle cx="8" cy="57" r="5" fill="#1a2a40"/>
+        <circle cx="28" cy="57" r="5" fill="#1a2a40"/>
+        <circle cx="48" cy="57" r="5" fill="#1a2a40"/>
+        <circle cx="66" cy="57" r="5" fill="#1a2a40"/>
+      </g>
+
+      <!-- Green glow on ground from construction lights -->
+      <ellipse cx="283" cy="272" rx="100" ry="8" fill="#22C55E" opacity="0.06"/>
+      <ellipse cx="500" cy="272" rx="60" ry="6" fill="#22C55E" opacity="0.04"/>
+
+      <!-- GRAROSE AIE LOGO overlaid on building -->
+      <!-- Dark panel behind logo -->
+      <rect x="218" y="88" width="130" height="48" fill="#0a1020" rx="4" opacity="0.9"/>
+      <rect x="220" y="90" width="126" height="44" fill="#0d1528" rx="3" opacity="0.95"/>
+
+      <!-- GRA in green -->
+      <text x="228" y="120" font-family="'Barlow Condensed', sans-serif" font-size="28" font-weight="900" fill="#22C55E" letter-spacing="2" filter="url(#glow)">GRA</text>
+      <!-- ROSE in stone -->
+      <text x="269" y="120" font-family="'Barlow Condensed', sans-serif" font-size="28" font-weight="900" fill="#A8A29E" letter-spacing="2">ROSE</text>
+      <!-- AIE accent -->
+      <text x="320" y="108" font-family="'Barlow Condensed', sans-serif" font-size="14" font-weight="900" fill="#22C55E" letter-spacing="1" filter="url(#softglow)">AIE</text>
+
+      <!-- Green accent line under logo -->
+      <rect x="220" y="133" width="126" height="1.5" fill="#22C55E" opacity="0.4"/>
+
+      <!-- Construction lights (small spotlights) -->
+      <circle cx="223" cy="80" r="4" fill="#22C55E" opacity="0.7" filter="url(#glow)"/>
+      <circle cx="343" cy="80" r="4" fill="#22C55E" opacity="0.7" filter="url(#glow)"/>
+
+      <!-- Ambient glow behind building -->
+      <ellipse cx="283" cy="150" rx="90" ry="120" fill="url(#glowG)" opacity="0.5"/>
+
+    </svg>
+  </div>
+
+  <div class="cs-badge">🚧 Under Construction</div>
+
+  <div class="main-title">
+    <span class="gra">GRA</span><span class="rose">ROSE</span> <span class="aie">AIE</span>
+  </div>
+
+  <div class="subtitle">AI Estimating — Coming Soon</div>
+
+  <p class="desc">We're building the most powerful estimating tool the trades have ever seen. AI-powered scope analysis, material and labor cost estimation, and professional proposal generation — all in one place.</p>
+
+  <div class="features-preview">
+    <div class="feat-pill"><span>✓</span> AI Scope Analysis</div>
+    <div class="feat-pill"><span>✓</span> Blueprint Parsing</div>
+    <div class="feat-pill"><span>✓</span> Trade Pricing Databases</div>
+    <div class="feat-pill"><span>✓</span> Proposal Generation</div>
+  </div>
+
+  <div class="notify-form" id="form-wrap">
+    <input type="email" class="notify-input" id="email-input" placeholder="Enter your email for early access">
+    <button class="notify-btn" onclick="handleNotify()">Notify Me</button>
+  </div>
+  <div class="notify-success" id="success-msg">✅ You're on the list — we'll be in touch!</div>
+
+  <div class="photo-strip">
+    <div class="photo-strip-cell">
+      <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80" alt="Construction site">
+    </div>
+    <div class="photo-strip-cell">
+      <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&q=80" alt="Workers">
+    </div>
+    <div class="photo-strip-cell">
+      <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80" alt="Building">
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span>© 2026 Grarose. All rights reserved.</span>
+  <a href="https://grarose.com">grarose.com</a>
+</footer>
+
+<script>
+  function handleNotify() {
+    const email = document.getElementById('email-input').value.trim();
+    if (!email || !email.includes('@')) {
+      document.getElementById('email-input').style.borderColor = 'rgba(239,68,68,0.5)';
+      return;
+    }
+    document.getElementById('form-wrap').style.display = 'none';
+    document.getElementById('success-msg').style.display = 'block';
+  }
+</script>
+</body>
+</html>
